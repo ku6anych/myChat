@@ -1,10 +1,8 @@
-import axios from "axios"
-import { apiUrl } from "./GlobalConstants"
-
+import axios from 'axios';
+import { apiUrl } from './GlobalConstants';
 
 const axiosApi = axios.create({
-    baseURL:apiUrl
+  baseURL: apiUrl,
 });
 
 export default axiosApi;
-

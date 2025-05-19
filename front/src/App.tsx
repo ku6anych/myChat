@@ -1,9 +1,22 @@
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
+import Login from './features/users/Login';
+
+import Register from './features/users/Register';
+import AppToolBar from './components/UI/AppToolBar';
 
 const App = () => {
   return (
     <>
-      <h1 className="text-3xl font-bold">sds</h1>
+      <header>
+        <AppToolBar />
+      </header>
+      <main>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      </main>
     </>
   );
 };
