@@ -2,15 +2,17 @@ import { error } from 'console';
 import express from 'express';
 import { Error } from 'mongoose';
 import User from '../models/User';
+import { imageStorage, imagesUpload } from '../multer';
 
 const usersRouter = express.Router();
 
-usersRouter.post('/', async (req, res, next) => {
+usersRouter.post('/', imagesUpload.single('image'), async (req, res, next) => {
   try {
     const newUser = {
       username: req.body.username,
       password: req.body.password,
       confirmPassword: req.body.confirmPassword,
+      avatar: req.file ? 'images' + req.file.filename : null,
     };
 
     const user = new User(newUser);
@@ -64,6 +66,7 @@ usersRouter.post('/sessions', async (req, res, next) => {
       _id: user._id,
       username: user.username,
       role: user.role,
+      avatar: user.avatar,
     };
 
     res.status(200).send({

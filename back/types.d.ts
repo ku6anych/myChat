@@ -3,5 +3,6 @@ export interface IUserField {
   password: string;
   role: string;
   token: string;
+  avatar: string;
   __confirmPassword: string;
 }

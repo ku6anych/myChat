@@ -54,6 +54,9 @@ const UserSchema = new mongoose.Schema<HydratedDocument<IUserField>, UserModel, 
       default: 'user',
       enum: ['user', 'admin'],
     },
+    avatar: {
+      type: String,
+    },
     token: {
       type: String,
       required: true,

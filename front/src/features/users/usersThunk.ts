@@ -14,7 +14,15 @@ export const register = createAsyncThunk<
   { rejectValue: IValidationError }
 >('users/register', async (registerForm, { rejectWithValue }) => {
   try {
-    const { data } = await axiosApi.post('/users', registerForm);
+    const dataForm = new FormData();
+    const keys = Object.keys(registerForm) as (keyof IRegisterMutation)[];
+    keys.forEach((key) => {
+      const value = registerForm[key];
+      if (value !== null) {
+        dataForm.append(key, value);
+      }
+    });
+    const { data } = await axiosApi.post('/users', dataForm);
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response && error.response.status === 400) {

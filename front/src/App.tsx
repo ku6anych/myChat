@@ -3,7 +3,7 @@ import './App.css';
 import Login from './features/users/Login';
 
 import Register from './features/users/Register';
-import AppToolBar from './components/UI/AppToolBar';
+import AppToolBar from './components/UI/AppToolBar/AppToolBar';
 
 const App = () => {
   return (

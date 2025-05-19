@@ -1,10 +1,11 @@
 import { styled } from '@mui/material';
 import { AppBar, Container, Grid, Toolbar, Typography } from '@mui/material';
-import { useAppSelector } from '../../store/hook';
-import { selectUser } from '../../features/users/userSlice';
+import { useAppSelector } from '../../../store/hook';
+import { selectUser } from '../../../features/users/userSlice';
 import { NavLink } from 'react-router-dom';
-import UserMenu from './UserMenu';
+
 import AnonymousMenu from './AnonymousMenu';
+import UserMenu from './UserMenu';
 
 const Link = styled(NavLink)({
   color: 'inherit',

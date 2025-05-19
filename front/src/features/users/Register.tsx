@@ -5,11 +5,13 @@ import { useAppDispatch, useAppSelector } from '../../store/hook';
 import { register } from './usersThunk';
 import { selectRegisterError, selectRegisterLoading } from './userSlice';
 import { useNavigate } from 'react-router-dom';
+import FileInput from '../../components/UI/FileInput/FileInput';
 
 const initialState: IRegisterMutation = {
   username: '',
   password: '',
   confirmPassword: '',
+  avatar: null,
 };
 
 const Register = () => {
@@ -28,9 +30,11 @@ const Register = () => {
     }));
   };
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(register(userMutation)).unwrap();
+    console.log(userMutation);
+
+    await dispatch(register(userMutation)).unwrap();
     navigate('/');
   };
 
@@ -39,6 +43,16 @@ const Register = () => {
       return registerError?.errors[fieldName].message;
     } catch (e) {
       return undefined;
+    }
+  };
+
+  const onChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { files, name } = e.target;
+    if (files) {
+      setUserMutation((prevState) => ({
+        ...prevState,
+        [name]: files[0] || null,
+      }));
     }
   };
 
@@ -129,6 +143,9 @@ const Register = () => {
                   {getFieldError('confirmPassword')}
                 </small>
               </div>
+            </div>
+            <div>
+              <FileInput name="image" label="image" onGetFile={onChangeFile} />
             </div>
 
             <div>

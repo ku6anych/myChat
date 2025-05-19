@@ -2,6 +2,7 @@ export interface IUser {
   _id: string;
   username: string;
   password: string;
+  avatar: string;
   token: string;
   role: string;
 }
@@ -15,6 +16,7 @@ export interface IRegisterMutation {
   username: string;
   password: string;
   confirmPassword: string;
+  avatar: File | null;
 }
 
 export interface IValidationError {
