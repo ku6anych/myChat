@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import type { IGlobalError, ILoginMutation, IRegisterMutation, IUser, IValidationError } from '../../types';
 import axiosApi from '../../axiosApi';
 import { isAxiosError } from 'axios';
+import { logOutReducer } from './userSlice';
 
 export interface RegisterAndLoadingResponse {
   user: IUser;
@@ -46,3 +47,8 @@ export const login = createAsyncThunk<IUser, ILoginMutation, { rejectValue: IGlo
     }
   },
 );
+
+export const logOutThunk = createAsyncThunk<void, void>('users/logOutThunk', async (_arg, { dispatch }) => {
+  await axiosApi.delete('/users/sessions', { withCredentials: true });
+  await dispatch(logOutReducer());
+});

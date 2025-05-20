@@ -21,7 +21,7 @@ const ARGON2_OPTIONS = {
 
 export const JWT_SECRET = process.env.JWT_SECRET || 'default_fallback_secret';
 
-export const generateToken = (_id: mongoose.Types.ObjectId) => {
+export const generateTokenJWT = (_id: mongoose.Types.ObjectId) => {
   return jwt.sign({ _id }, JWT_SECRET, { expiresIn: '365d' });
 };
 
@@ -81,7 +81,7 @@ UserSchema.methods.checkPassword = async function (password: string) {
 };
 
 UserSchema.methods.generateToken = function () {
-  this.token = generateToken(this._id);
+  this.token = generateTokenJWT(this._id);
 };
 
 UserSchema.path('password').validate(async function (v: string) {

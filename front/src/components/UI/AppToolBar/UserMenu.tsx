@@ -5,6 +5,7 @@ import type { IUser } from '../../../types';
 import { useState } from 'react';
 import { useAppDispatch } from '../../../store/hook';
 import { apiUrl } from '../../../GlobalConstants';
+import { logOutThunk } from '../../../features/users/usersThunk';
 
 interface Props {
   user: IUser;
@@ -20,6 +21,10 @@ const UserMenu: React.FC<Props> = ({ user }) => {
 
   const handleClose = () => {
     setUserMenu(null);
+  };
+
+  const logOut = () => {
+    dispatch(logOutThunk()).unwrap();
   };
 
   return (
@@ -38,9 +43,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
       </Grid>
       <Menu keepMounted anchorEl={userMenu} open={Boolean(userMenu)} onClose={handleClose}>
         <MenuItem>
-          <Button component={NavLink} to="/products/new" onClick={handleClose}>
-            logout
-          </Button>
+          <Button onClick={logOut}>logout</Button>
         </MenuItem>
       </Menu>
     </div>

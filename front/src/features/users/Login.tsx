@@ -29,10 +29,14 @@ const Login = () => {
     }));
   };
 
-  const onFormSubmit = (e: React.FormEvent) => {
+  const onFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(login(userMutation)).unwrap();
-    navigate('/');
+    try {
+      await dispatch(login(userMutation)).unwrap();
+      navigate('/');
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (

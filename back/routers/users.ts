@@ -3,6 +3,7 @@ import express from 'express';
 import { Error } from 'mongoose';
 import User from '../models/User';
 import { imageStorage, imagesUpload } from '../multer';
+import auth, { RequestWithUser } from '../middleware/auth';
 
 const usersRouter = express.Router();
 
@@ -52,14 +53,13 @@ usersRouter.post('/sessions', async (req, res, next) => {
       res.status(400).send({ error: 'Password is incorrect' });
       return;
     }
-
     user.generateToken();
-
     res.cookie('token', user.token, {
-      httpOnly: true,
+      httpOnly: false,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
     });
+
     await user.save();
 
     const safeUser = {
@@ -68,7 +68,6 @@ usersRouter.post('/sessions', async (req, res, next) => {
       role: user.role,
       avatar: user.avatar,
     };
-
     res.status(200).send({
       message: 'User Successuly created',
       user: safeUser,
@@ -78,6 +77,32 @@ usersRouter.post('/sessions', async (req, res, next) => {
       res.status(400).send(error);
       return;
     }
+    next(error);
+  }
+});
+
+usersRouter.delete('/sessions', auth, async (req, res, next) => {
+  const token = (req as RequestWithUser).user.token;
+
+  if (!token) {
+    res.send({ message: 'Success logout' });
+    return;
+  }
+
+  res.clearCookie('token', {
+    httpOnly: false,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+  });
+
+  try {
+    const user = await User.findOne({ token });
+    if (user) {
+      user.generateToken();
+      await user.save();
+    }
+    res.status(200).send({ message: 'Log out done' });
+  } catch (error) {
     next(error);
   }
 });

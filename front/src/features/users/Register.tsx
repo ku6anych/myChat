@@ -32,10 +32,12 @@ const Register = () => {
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(userMutation);
-
-    await dispatch(register(userMutation)).unwrap();
-    navigate('/');
+    try {
+      await dispatch(register(userMutation)).unwrap();
+      navigate('/');
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const getFieldError = (fieldName: string) => {

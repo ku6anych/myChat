@@ -34,3 +34,11 @@ export interface IValidationError {
 export interface IGlobalError {
   error: string;
 }
+
+
+export interface IOnlineUser {
+  userId: string;
+  username: string;
+  role: string;
+  avatar?: string;
+}

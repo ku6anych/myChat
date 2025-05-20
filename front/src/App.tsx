@@ -4,8 +4,10 @@ import Login from './features/users/Login';
 
 import Register from './features/users/Register';
 import AppToolBar from './components/UI/AppToolBar/AppToolBar';
+import AllMessages from './features/allMessages/AllMessages';
 
 const App = () => {
+  
   return (
     <>
       <header>
@@ -13,6 +15,7 @@ const App = () => {
       </header>
       <main>
         <Routes>
+          <Route path="/" element={<AllMessages />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>
